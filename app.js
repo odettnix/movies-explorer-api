@@ -11,10 +11,11 @@ const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rateLimiter');
 
-const { PORT = 3000 } = process.env;
+const { PORT, DB_ADDRESS } = require('./utils/constants');
+
 mongoose.set('strictQuery', true);
 
-mongoose.connect('mongodb://127.0.0.1:27017/movies', {
+mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

@@ -44,6 +44,11 @@ function login(req, res, next) {
     .catch(next);
 }
 
+function signOut(req, res) {
+  res.send({ message: 'Вы успешно вышли из аккаунта' });
+  res.clearCookie('jwt').end();
+}
+
 function getCurrentUser(req, res, next) {
   const { _id } = req.user;
   User
@@ -72,5 +77,5 @@ function updateUser(req, res, next) {
 }
 
 module.exports = {
-  createUser, login, getCurrentUser, updateUser,
+  createUser, login, getCurrentUser, updateUser, signOut,
 };

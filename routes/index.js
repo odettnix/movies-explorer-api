@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const NotFoundError = require('../errors/NotFoundError');
-const { createUser, login } = require('../controllers/users');
+const { createUser, login, signOut } = require('../controllers/users');
 const {
   singUp,
   signIn,
@@ -9,6 +9,7 @@ const auth = require('../middlewares/auth');
 
 router.post('/signup', singUp, createUser);
 router.post('/signin', signIn, login);
+router.post('/signout', signOut);
 
 router.use(auth);
 router.use('/', require('./users'));
