@@ -27,6 +27,8 @@ const allowedOrigins = [
   'http://odettnix.movies.nomoredomainsicu.ru',
   'http://api.odettnix.movies.nomoredomainsicu.ru',
   'https://api.odettnix.movies.nomoredomainsicu.ru',
+  'http://51.250.0.59',
+  'https://51.250.0.59',
 ];
 
 const app = express();
