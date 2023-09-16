@@ -8,15 +8,15 @@ const ConfilctError = require('../errors/ConfilctError');
 const { NODE_ENV, JWT_SECRET, JWT_SECRET_DEV } = require('../utils/constants');
 
 function createUser(req, res, next) {
-  const { name, email, password } = req.body;
+  const { userName, email, password } = req.body;
   bcrypth.hash(password, 10)
     .then((hash) => User.create({
       email,
       password: hash,
-      name,
+      userName,
     }))
     .then((user) => res.send({
-      name: user.name,
+      userName: user.userName,
       email: user.email,
       _id: user._id,
     }))
@@ -61,10 +61,11 @@ function getCurrentUser(req, res, next) {
 }
 
 function updateUser(req, res, next) {
-  const { name, email } = req.body;
+  console.log('updateUser');
+  const { userName, email } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
-    { name, email },
+    { userName, email },
     { new: true, runValidators: true },
   ).then((user) => {
     res.send(user);

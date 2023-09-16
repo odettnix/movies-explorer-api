@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
-    name: {
+    userName: {
       type: String,
       required: true,
       validate: {
