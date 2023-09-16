@@ -61,7 +61,6 @@ function getCurrentUser(req, res, next) {
 }
 
 function updateUser(req, res, next) {
-  console.log('updateUser');
   const { userName, email } = req.body;
   User.findByIdAndUpdate(
     req.user._id,

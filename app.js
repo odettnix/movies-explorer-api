@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const router = require('./routes');
 
-const cors = require('./middlewares/cors');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rateLimiter');
@@ -20,13 +20,35 @@ mongoose.connect(DB_ADDRESS, {
   useUnifiedTopology: true,
 });
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'https://odettnix.movies.nomoredomainsicu.ru',
+  'http://odettnix.movies.nomoredomainsicu.ru',
+  'http://api.odettnix.movies.nomoredomainsicu.ru',
+  'https://api.odettnix.movies.nomoredomainsicu.ru',
+];
+
 const app = express();
 app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors);
+const corsOptions = {
+  origin(origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.use(limiter);
 app.use(requestLogger);
 
